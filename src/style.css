@@ -16,9 +16,15 @@
   --color-danger: #c0392b;
 }
 
+:root {
+  --nav-height: 60px;
+}
+
 :where(*) {
   color: var(--text-main);
   font-weight: 500;
+  /* 割とデバッグ用 */
+  cursor: default !important;
 }
 
 body {
@@ -28,8 +34,9 @@ body {
 
 #map {
   width: 100vw;
-  height: 80vh;
+  height: calc(100vh - var(--nav-height));
   position: absolute;
+  cursor: default;
 }
 
 nav {
@@ -39,13 +46,14 @@ nav {
   position: fixed;
   bottom: 0px;
   justify-content: space-around;
+  vertical-align: bottom;
   width: 100%;
+  height: var(--nav-height);
 }
 
 nav > button {
   font-size: 16px;
   width: fit-content;
-  margin: 10px 0px;
 }
 
 button {
@@ -53,4 +61,12 @@ button {
   background: none;
   border-radius: 20px;
   padding: 4px 16px;
+}
+
+.map-room-text {
+  display: flex !important;
+  justify-content: center; /* 左右の中央揃え */
+  align-items: center; /* 上下の中央揃え */
+  font-size: 16px;
+  text-align: center;
 }
