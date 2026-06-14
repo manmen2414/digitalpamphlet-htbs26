@@ -72,7 +72,9 @@ const roomLabelBounds = new Map();
 
 // 階ごとにマップコンポーネントを処理する
 for (const floor of mapInfo.floors) {
-  const imgOverlay = L.imageOverlay(`/env/${floor.floorFile}`, mapBounds);
+  const imgOverlay = L.imageOverlay(`/env/${floor.floorFile}`, mapBounds, {
+    attribution: mapInfo.attribution,
+  });
   imageOverlays.push(imgOverlay);
 
   baseLayers[floor.floorName] = imgOverlay;
