@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "required": [
+    "events"
+  ],
+  "properties": {
+    "events": {
+      "type": "array", // オブジェクト型
+      "items": {
+        "type": "object",
+        "required": [
+          "eventId",
+          "name"
+        ],
+        "properties": {
+          "eventId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

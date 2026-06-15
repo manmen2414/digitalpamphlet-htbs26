@@ -1,4 +1,4 @@
-/// <reference path="../src/map.d.ts"/>
+/// <reference path="../types/map.d.ts"/>
 
 /**@type {MapInfo}*/
 const map = {

@@ -1,0 +1,9 @@
+{
+  "$schema": "../types/events.schema.json",
+  "events": [
+    {
+      "eventId": "test-event",
+      "name": "テストイベント"
+    }
+  ]
+}
