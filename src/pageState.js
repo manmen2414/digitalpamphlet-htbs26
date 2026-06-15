@@ -1,0 +1,112 @@
+/**@typedef {import("../types/types").PamphletPage} PamphletPage */
+
+import { timeout } from "./util.js";
+
+/**@type {PamphletPage[]} */
+const PAMPHLET_PAGES = ["map", "booth", "event"];
+const SLIDE_ANIMATION = {
+  /**ページを端から端までスクロールするときの秒数 */
+  pageSlideSeconds: 0.4,
+  /**開始ページのイージング */
+  startEase: "linear",
+  /**中間ページのイージング */
+  middleEase: "linear",
+  /**終了ページのイージング */
+  endEase: "linear",
+};
+
+for (const pamphletPage of PAMPHLET_PAGES) {
+  document
+    .getElementById(`nav-${pamphletPage}-btn`)
+    ?.addEventListener("click", () => {
+      pageState.page = pamphletPage;
+    });
+}
+
+/**
+ * @param {PamphletPage} from
+ * @param {PamphletPage} to
+ */
+async function slidePage(from, to) {
+  if (from === to) return;
+  const fromIndex = PAMPHLET_PAGES.indexOf(from);
+  const toIndex = PAMPHLET_PAGES.indexOf(to);
+  if (toIndex === -1)
+    throw new Error(`slidePage: Slide to a non-existent page: ${to}`);
+  if (fromIndex === -1) {
+    // 元が存在しなければスライドできない
+    const toElement = document.getElementById(`${to}-page`);
+    if (!toElement) throw new Error(`slidePage: not found element #${to}-page`);
+    toElement.style.display = "block";
+  }
+  const slideMin = Math.min(fromIndex, toIndex);
+  const slideMax = Math.max(fromIndex, toIndex);
+  const isSlideToLeft = fromIndex > toIndex;
+  const slideTargets = PAMPHLET_PAGES.slice(slideMin, slideMax + 1)
+    .map((p) => document.getElementById(`${p}-page`))
+    .filter((p) => !!p);
+  if (isSlideToLeft) slideTargets.reverse();
+  let slideIndex = 0;
+  const slideStartStyle = {
+    transform: `translateX(${isSlideToLeft ? "-" : ""}100vw)`,
+  };
+  const slideMiddleStyle = {
+    transform: `none`,
+  };
+  const slideEndStyle = {
+    transform: `translateX(${isSlideToLeft ? "" : "-"}100vw)`,
+  };
+  for (const slideTarget of slideTargets) {
+    const keyframes = [];
+    let duration = 0;
+    let ease = SLIDE_ANIMATION.middleEase;
+    if (slideIndex > 1) {
+      await timeout(SLIDE_ANIMATION.pageSlideSeconds * 500);
+    }
+    if (slideIndex === 0) {
+      keyframes.push(slideMiddleStyle);
+      ease = SLIDE_ANIMATION.startEase;
+    } else {
+      duration += SLIDE_ANIMATION.pageSlideSeconds * 500;
+      setTimeout(() => {
+        slideTarget.style.display = "unset";
+      }, 20);
+      keyframes.push(slideStartStyle);
+    }
+    if (slideIndex === slideTargets.length - 1) {
+      ease = SLIDE_ANIMATION.endEase;
+
+      keyframes.push(slideMiddleStyle);
+    } else {
+      duration += SLIDE_ANIMATION.pageSlideSeconds * 500;
+      setTimeout(() => {
+        slideTarget.style.display = "none";
+      }, duration - 20);
+      keyframes.push(slideEndStyle);
+    }
+
+    console.log(keyframes);
+    slideTarget.animate(keyframes, { easing: ease, duration });
+    slideIndex++;
+  }
+}
+
+const pageState = {
+  /**@type {PamphletPage} */
+  _page: "map",
+  get page() {
+    return this._page;
+  },
+  set page(value) {
+    for (const pamphletPage of PAMPHLET_PAGES) {
+      const btnElement = document.getElementById(`nav-${pamphletPage}-btn`);
+      if (!btnElement) continue;
+      btnElement.classList.remove("active-page");
+      if (pamphletPage === value) btnElement.classList.add("active-page");
+    }
+    slidePage(this._page, value);
+    this._page = value;
+  },
+};
+
+export { pageState, PAMPHLET_PAGES };

@@ -17,4 +17,14 @@ function multiSelect(...args) {
   }
 }
 
-export { multiSelect };
+/**
+ * 指定したミリ秒後に解決するPromise。
+ * @param {number} ms
+ * @returns {Promise<void>}
+ */
+function timeout(ms) {
+  if (ms <= 0) return Promise.resolve();
+  return new Promise((rs, rj) => setTimeout(() => rs(), ms));
+}
+
+export { multiSelect, timeout };
