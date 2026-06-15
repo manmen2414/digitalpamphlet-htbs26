@@ -1,5 +1,6 @@
 interface MapInfo {
   floors: FloorInfo[];
+  attribution?: string;
 }
 interface FloorInfo {
   floorFile: string;
