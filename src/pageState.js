@@ -8,11 +8,11 @@ const SLIDE_ANIMATION = {
   /**ページを端から端までスクロールするときの秒数 */
   pageSlideSeconds: 0.4,
   /**開始ページのイージング */
-  startEase: "linear",
+  startEase: "ease",
   /**中間ページのイージング */
-  middleEase: "linear",
+  middleEase: "ease",
   /**終了ページのイージング */
-  endEase: "linear",
+  endEase: "ease",
 };
 
 for (const pamphletPage of PAMPHLET_PAGES) {
