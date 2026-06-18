@@ -21,7 +21,15 @@ const map = L.map("map", {
   // デバッグ中はズーム最大を上げる
   maxZoom: debug ? 6 : 3,
   maxBounds: mapBounds, // ★画面がこの範囲の外に出ないように制限
+  zoomControl: false, // デフォルトのズームコントロールを無効化
 }).fitBounds(mapBounds);
+
+// 拡大/縮小コントロールを右下に配置
+L.control
+  .zoom({
+    position: "bottomright",
+  })
+  .addTo(map);
 
 map.setView(L.latLng(svgHeight, 0));
 
