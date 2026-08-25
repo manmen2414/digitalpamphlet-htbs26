@@ -11,6 +11,8 @@ interface BoothInfo {
   category: BoothCategory;
   /** ブースの説明。 */
   description?: string;
+  /** ブースのハッシュタグ(仮)。 */
+  tags: string[];
 }
 
 type BoothCategory =

@@ -85,7 +85,6 @@ async function slidePage(from, to) {
       keyframes.push(slideEndStyle);
     }
 
-    console.log(keyframes);
     slideTarget.animate(keyframes, { easing: ease, duration });
     slideIndex++;
   }
