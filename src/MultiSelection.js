@@ -46,13 +46,17 @@ export class MultiSelection {
       if (selector.value === "unsel") selected = [];
       this.category.setAttribute("selected", selected.join());
 
-      const text = this.category.getElementsByTagName("span").item(0);
-      if (!text) return;
-      const selections = this.getSelections();
-      text.innerText = selections.join(", ");
-      if (this.onUpdate) this.onUpdate(selections);
-      if (selected.length === 0) text.innerText = "指定なし";
+      this.#update();
     };
+  }
+
+  #update() {
+    const text = this.category.getElementsByTagName("span").item(0);
+    if (!text) return;
+    const selections = this.getSelections();
+    text.innerText = selections.join(", ");
+    if (this.onUpdate) this.onUpdate(selections);
+    if (this.getSelectionsIndex().length === 0) text.innerText = "指定なし";
   }
 
   getSelectionsIndex() {
@@ -62,5 +66,19 @@ export class MultiSelection {
   }
   getSelections() {
     return this.getSelectionsIndex().map((id) => this.choices[parseInt(id)]);
+  }
+  /**
+   * @param {string[]} selections
+   */
+  setSelections(selections) {
+    this.category.setAttribute(
+      "selected",
+      selections
+        .map((v) => this.choices.indexOf(v))
+        .filter((n) => n !== -1)
+        .join(),
+    );
+
+    this.#update();
   }
 }

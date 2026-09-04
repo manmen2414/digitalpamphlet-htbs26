@@ -11,6 +11,6 @@ interface RoomInfo {
   /** "トイレ"だとトイレ表示に、"階段"だと階段表示になる。 */
   name: string;
   bounds: [[number, number], [number, number]];
-  boothId?: string;
-  eventId?: string;
+  boothIds?: string[];
+  eventIds?: string[];
 }

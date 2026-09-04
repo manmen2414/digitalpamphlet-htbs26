@@ -9,7 +9,7 @@ const map = {
       rooms: [
         {
           name: "部屋Aブース",
-          boothId: "roomA",
+          boothIds: ["roomA"],
           bounds: [
             [527.5657111883148, 379.15625],
             [690.1580065474543, 120.203125],
@@ -24,7 +24,7 @@ const map = {
         },
         {
           name: "部屋C イベントあり",
-          eventId: "roomCEvent",
+          eventIds: ["roomCEvent"],
           bounds: [
             [417.09507655927536, 619.984375],
             [691.3444818947726, 391.5],

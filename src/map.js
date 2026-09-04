@@ -3,6 +3,9 @@ import "leaflet/dist/leaflet.css";
 import mapInfo from "../env/mapinfo.js";
 import { multiSelect } from "./util.js";
 import { debug } from "./debug.js";
+import { getBooth } from "./boothutil.js";
+import { showBoothCard } from "./booth.js";
+import { addSelectionsToCard, generateCard } from "./card.js";
 
 // マップの基本設定
 const svgWidth = 700;
@@ -99,9 +102,9 @@ for (const floor of mapInfo.floors) {
     // 四角形の生成
     /**@type {string|undefined} */
     const color = multiSelect(
-      room.eventId,
+      room.eventIds,
       roomColorHasEvent,
-      room.boothId,
+      room.boothIds,
       roomColorBooth,
       room.name === "トイレ",
       roomColorToilet,
@@ -168,7 +171,7 @@ function recheckRoomLabelShowStatus() {
 /**
  * ズームサイズに応じたラベルの要素サイズを変更
  */
-function calculateRoolLabelArea() {
+function calculateRoomLabelArea() {
   const roomLabelLayerGroup = roomLabelLayerGroups.get(nowBaseLayerName);
   if (!roomLabelLayerGroup) {
     throw new Error(
@@ -250,17 +253,39 @@ map.on("click", function (e) {
       }, 500);
     }
   }
+
+  const latlng = e.latlng;
+  const floor = mapInfo.floors.find((f) => f.floorName === nowBaseLayerName);
+  if (!floor) return;
+  const room = floor.rooms.find(
+    (r) =>
+      r.bounds[0][0] < latlng.lat &&
+      r.bounds[0][1] > latlng.lng &&
+      r.bounds[1][0] > latlng.lat &&
+      r.bounds[1][1] < latlng.lng,
+  );
+  if (!room) return;
+  if (room.boothIds && room.boothIds.length > 0) {
+    const booths = room.boothIds.flatMap((b) => getBooth(b) ?? []);
+    if (booths.length === 1) showBoothCard(booths[0]);
+    if (booths.length > 1)
+      addSelectionsToCard(
+        generateCard("selections").card,
+        booths.map((b) => [b.operator, () => showBoothCard(b)]),
+        room.name,
+      );
+  }
 });
 
 map.on("baselayerchange", function (e) {
   changeLayerGroups(e.name);
   recheckRoomLabelShowStatus();
-  calculateRoolLabelArea();
+  calculateRoomLabelArea();
 });
 
 map.on("zoomend", function () {
   recheckRoomLabelShowStatus();
-  calculateRoolLabelArea();
+  calculateRoomLabelArea();
 });
 
 // 右上コントロールの表示

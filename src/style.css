@@ -637,6 +637,7 @@ strong:hover {
   width: 100vw;
   display: flex;
   gap: 5px;
+  z-index: 10;
 }
 
 #booth-page .search-pane {
@@ -650,29 +651,30 @@ strong:hover {
   background-color: #fff;
   border-radius: 10px;
   padding: 6px 16px;
-  width: fit-content;
   display: flex;
   gap: 5px;
 }
 
 .search-input > input {
   background-color: transparent;
+  flex: 1;
   border: none;
   outline: none;
 }
 
 .search-input > span {
-  pointer-events: none;
   display: block;
+  pointer-events: none;
 }
 
 .categories-input {
   background-color: #fff;
   min-width: 20em;
-  padding: 6px 16px 6px 0px;
+  padding: 7px 16px 4px 0px;
   width: fit-content;
   border-radius: 10px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .categories-input > .categories-select {
@@ -684,4 +686,45 @@ strong:hover {
 .search-result-pane {
   position: absolute;
   top: 100px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.search-showmode {
+  position: fixed;
+  top: 80px;
+  right: 10px;
+  border: 1px solid #000;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 10000px;
+}
+
+@media screen and (max-width: 600px) {
+  .search-pane {
+    display: block;
+  }
+  .search-pane > * {
+    margin-bottom: 4px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+  .categories-input {
+    width: 100%;
+  }
+
+  .search-showmode {
+    top: 120px;
+  }
+
+  .search-result-pane {
+    top: 140px;
+  }
+}
+
+#booth-showmode {
+  background-color: #fff;
 }

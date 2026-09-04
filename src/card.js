@@ -2,24 +2,12 @@ import "./card.css";
 
 /**
  * @param {string} cardType
- * @param {string} title
- * @param {string|undefined} operator
- * @param {string|undefined} boothImage
- * @param {string[]} categories
- * @param {string} description
  */
-function generateCard(
-  cardType,
-  title,
-  operator,
-  boothImage,
-  categories = [],
-  description = "",
-) {
+function generateCard(cardType) {
   const cardBase = document.createElement("div");
   cardBase.className = `card-base`;
   const cardElement = document.createElement("div");
-  cardElement.className = `card card-${cardType}`;
+  cardElement.className = `bigcard card-${cardType}`;
   cardBase.appendChild(cardElement);
 
   cardElement.innerHTML += `<button class="card-close"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>`;
@@ -29,9 +17,41 @@ function generateCard(
       "generateCard: failed to create card (no close button generated)",
     );
 
+  document.body.appendChild(cardBase);
+
+  closeBtn.onclick = () => {
+    cardElement.classList.add("closeing");
+    setTimeout(() => {
+      cardBase.remove();
+    }, 150);
+  };
+
+  return {
+    card: cardElement,
+    base: cardBase,
+  };
+}
+/**
+ * @param {HTMLDivElement} card
+ * @param {string} title
+ * @param {string|undefined} operator
+ * @param {string|undefined} boothImage
+ * @param {string[]} categories
+ * @param {string} description
+ * @param {((clicked:string)=>any)|null} categoriesOnclick
+ */
+function addBoothComponentsToCard(
+  card,
+  title,
+  operator,
+  boothImage,
+  categories = [],
+  description = "",
+  categoriesOnclick = null,
+) {
   const cardHeader = document.createElement("div");
   cardHeader.className = "card-header";
-  cardElement.appendChild(cardHeader);
+  card.appendChild(cardHeader);
   if (boothImage) {
     const img = document.createElement("img");
     img.src = boothImage;
@@ -41,7 +61,7 @@ function generateCard(
   }
   const cardContent = document.createElement("div");
   cardContent.className = "card-content";
-  cardElement.appendChild(cardContent);
+  card.appendChild(cardContent);
   if (operator) {
     const operatorElement = document.createElement("div");
     operatorElement.className = "card-operator";
@@ -63,21 +83,41 @@ function generateCard(
     cardContent.appendChild(cardCategories);
 
     for (const category of categories) {
-      const cardCategory = document.createElement("div");
+      const cardCategory = document.createElement("button");
       cardCategory.className = "card-category";
       cardCategory.innerText = category;
       cardCategories.appendChild(cardCategory);
+
+      cardCategory.onclick = () => {
+        if (categoriesOnclick) categoriesOnclick(category);
+      };
     }
   }
-
-  document.body.appendChild(cardBase);
-
-  closeBtn.onclick = () => {
-    cardElement.classList.add("closeing");
-    setTimeout(() => {
-      cardBase.remove();
-    }, 200);
-  };
 }
 
-export { generateCard };
+/**
+ * @param {HTMLDivElement} card type: selections
+ * @param {[string,()=>void][]} selections
+ * @param {string} label
+ */
+function addSelectionsToCard(card, selections, label = "選択") {
+  const btns = selections.map(([text, click]) => {
+    const b = document.createElement("button");
+    b.innerText = text;
+    b.onclick = () => click();
+    return b;
+  });
+
+  const text = document.createElement("div");
+  text.innerText = label;
+  card.append(text, ...btns);
+}
+
+export function closeCard() {
+  /**@type {HTMLButtonElement[]} */
+  //@ts-ignore
+  const closeBtn = [...document.querySelectorAll("button.card-close")];
+  closeBtn.forEach((b) => b.click());
+}
+
+export { generateCard, addBoothComponentsToCard, addSelectionsToCard };

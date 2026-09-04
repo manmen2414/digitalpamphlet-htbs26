@@ -28,7 +28,7 @@ function generateSmallCard(
   if (boothImage) {
     const img = document.createElement("img");
     img.src = boothImage;
-    img.className = "card-img";
+    img.className = "smallcard-img";
     // 仮
     cardHeader.appendChild(img);
   }
@@ -48,16 +48,16 @@ function generateSmallCard(
   const cardDescription = document.createElement("div");
   cardDescription.className = "smallcard-desc";
   cardDescription.innerText = description;
-  cardContent.appendChild(cardDescription);
+  // cardContent.appendChild(cardDescription);
 
   if (categories.length > 0) {
     const cardCategories = document.createElement("div");
-    cardCategories.className = "card-categories";
+    cardCategories.className = "smallcard-categories";
     cardContent.appendChild(cardCategories);
 
     for (const category of categories) {
       const cardCategory = document.createElement("div");
-      cardCategory.className = "card-category";
+      cardCategory.className = "smallcard-category";
       cardCategory.innerText = category;
       cardCategories.appendChild(cardCategory);
     }

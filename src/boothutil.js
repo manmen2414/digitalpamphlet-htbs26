@@ -33,3 +33,10 @@ export function searchBooth(keyword, tags) {
       tags.every((t) => getBoothCategories(b).includes(t)),
   );
 }
+
+/**
+ * @param {string} boothId
+ */
+export function getBooth(boothId) {
+  return booths.find((b) => b.boothId === boothId);
+}
