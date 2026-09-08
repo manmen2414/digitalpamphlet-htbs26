@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # 学校情報等が含まれた秘匿ファイル
-env/*
+public/env/*

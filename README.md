@@ -8,7 +8,7 @@ git clone https://github.com/manmen2414/digitalpamphlet-htbs26
 cd digitalpamphlet-htbs26
 npm i
 ```  
-インストール完了後、env_devフォルダーをenvフォルダーとしてコピーしてください。  
+インストール完了後、env_devフォルダーを**publicディレクトリ内の**envフォルダーとしてコピーしてください。  
 envフォルダー内に部屋情報やブース情報、イベント情報を追加します。  
 実際に用いた環境をそのまま掲載すると学校情報の漏洩につながるため、env内はコミットされません。
 
