@@ -3,7 +3,17 @@
   "events": [
     {
       "eventId": "test-event",
-      "name": "テストイベント"
+      "eventImage": "images/event-test.png",
+      "title": "テストイベント",
+      "times": [
+        {
+          "start": "1000",
+          "end": "1100"
+        }
+      ],
+      "category": "展示",
+      "description": "開発用のダミーイベントです。",
+      "operator": "実行委員会"
     }
   ]
 }

@@ -459,6 +459,10 @@ hr {
   transition: border-color var(--transition-normal);
 }
 
+hr.small {
+  margin: 5px 0;
+}
+
 /* 強調テキスト */
 strong {
   font-weight: 700;
@@ -643,9 +647,6 @@ strong:hover {
 #booth-page .search-pane {
   background-color: #27ae60;
 }
-#event-page .search-pane {
-  background-color: #e67e22;
-}
 
 .search-input {
   background-color: #fff;
@@ -727,4 +728,83 @@ strong:hover {
 
 #booth-showmode {
   background-color: #fff;
+}
+
+#reload-event-btn {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 6px 16px;
+  font-size: 14px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.event-search-pane {
+  position: fixed;
+  padding: 20px 20px;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+  background-color: #e67e22;
+  align-items: center;
+}
+
+.event-category {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 3px 10px;
+  font-size: 14px;
+}
+
+#event-category-select {
+  border: none;
+  border-radius: 10px;
+  padding: 4px 15px;
+}
+
+.event-result-pane {
+  position: relative;
+  top: 70px;
+  width: 100%;
+}
+
+.event-time-pane {
+  border: 1px solid #000;
+  padding: 4px 8px;
+  background-color: #fff;
+}
+
+.event-time-pane > span {
+  font-size: 130%;
+}
+
+.event-times {
+  border-collapse: separate;
+  border-spacing: 7px;
+  line-height: 1.2;
+}
+
+.event-time-title {
+  text-align: right;
+}
+.event-time-lefttime {
+  text-align: center;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.soon > .event-time-lefttime {
+  background-color: #ff5959;
+}
+.noheld > .event-time-lefttime {
+  background-color: #ddd;
+}
+.inheld > .event-time-lefttime {
+  background-color: #f1ff70;
 }

@@ -36,28 +36,67 @@
   <div id="map-page" class="page">
     <div id="map"></div>
   </div>
-  <div id="booth-page" style="display: none;" class="page">
+  <div id="booth-page" style="display: none" class="page">
     <div class="search-pane">
       <div class="search-input">
-        <input type="text" placeholder="検索ワードを入力">
+        <input type="text" placeholder="検索ワードを入力" />
         <span class="material-symbols-outlined">search</span>
       </div>
 
       <div class="categories-input">
-        <select class="categories-select">
-        </select>
+        <select class="categories-select"></select>
         タグ:
         <span>指定なし</span>
       </div>
-
     </div>
-    <button class="search-showmode material-symbols-outlined" id="booth-showmode">cards_stack</button>
-    <div class="search-result-pane showstyle-list">
-
-    </div>
+    <button class="search-showmode material-symbols-outlined" id="booth-showmode">
+      cards_stack
+    </button>
+    <div class="search-result-pane showstyle-list"></div>
   </div>
-  <div id="event-page" style="display: none;" class="page">
-    page3
+  <div id="event-page" style="display: none" class="page">
+    <div class="event-search-pane">
+      <button id="reload-event-btn">
+        <span class="material-symbols-outlined">refresh</span>
+        更新
+      </button>
+      <span class="event-category">
+        カテゴリ
+        <select id="event-category-select">
+          <option value="">指定なし</option>
+          <option value="1">カテゴリ1</option>
+          <option value="2">カテゴリ2</option>
+          <option value="3">カテゴリ3</option>
+        </select>
+      </span>
+    </div>
+    <div class="event-result-pane">
+      <div class="event-time-pane">
+        <span>開催時間</span>
+        <hr class="small">
+        <table class="event-times">
+          <tbody>
+            <tr class="soon">
+              <th class="event-time-title">あああ</th>
+              <td class="event-time-lefttime">5分後</td>
+              <td class="event-time-next">次回: 00:00</td>
+            </tr>
+            <tr class="noheld">
+              <th class="event-time-title">あああ</th>
+              <td class="event-time-lefttime">30分後</td>
+              <td class="event-time-next">次回: 00:00</td>
+            </tr>
+            <tr class="inheld">
+              <th class="event-time-title">いいいいい</th>
+              <td class="event-time-lefttime">開催中</td>
+              <td class="event-time-next">終了: 00:00</td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
   </div>
 
   <script type="module" src="src/main.js"></script>
