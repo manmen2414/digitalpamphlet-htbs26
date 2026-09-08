@@ -1,7 +1,8 @@
 import "./style.css";
-import "./map.js";
-import "./booth";
-import { pageState } from "./pageState.js";
-import { generateCard } from "./card";
+import { initMap } from "./map/index.js";
+import { initBoothPage, searchWithCategory } from "./booth/page.js";
+import "./pageState.js";
+import { generateCard } from "./card/index.js";
 
-window.g = generateCard;
+initBoothPage();
+initMap({ onBoothCategoryClick: searchWithCategory });

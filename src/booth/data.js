@@ -1,6 +1,6 @@
-import booths from "../env/boothinfo";
+import booths from "../../env/boothinfo";
 
-/**@param {BoothInfo} booth  */
+/** @param {BoothInfo} booth */
 export function getBoothCategories(booth) {
   const categories = [booth.category, ...booth.tags];
   const classReg = /^([0-9])-[0-9]$/.exec(booth.boothId);
@@ -9,7 +9,7 @@ export function getBoothCategories(booth) {
 }
 
 export function getAllBoothCategories() {
-  /**@type {Set<string>} */
+  /** @type {Set<string>} */
   const categories = new Set(booths.flatMap((b) => [b.category, ...b.tags]));
 
   booths.forEach((booth) => {
@@ -39,4 +39,19 @@ export function searchBooth(keyword, tags) {
  */
 export function getBooth(boothId) {
   return booths.find((b) => b.boothId === boothId);
+}
+
+/**
+ * @param {string[]} boothIds
+ * @returns {BoothInfo[]}
+ */
+export function getBoothsByIds(boothIds) {
+  return boothIds.flatMap((id) => {
+    const booth = getBooth(id);
+    return booth ? [booth] : [];
+  });
+}
+
+export function getAllBooths() {
+  return booths;
 }

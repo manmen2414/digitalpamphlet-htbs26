@@ -1,44 +1,33 @@
-import booths from "../env/boothinfo";
 import {
   getAllBoothCategories,
+  getAllBooths,
   getBoothCategories,
   searchBooth,
-} from "./boothutil";
-import { addBoothComponentsToCard, closeCard, generateCard } from "./card";
-import { MultiSelection } from "./MultiSelection";
-import { pageState } from "./pageState";
-import { generateSmallCard } from "./smallcard";
+} from "./data.js";
+import { closeCard } from "../card/base.js";
+import { showBoothCard } from "../card/booth.js";
+import { MultiSelection } from "../MultiSelection.js";
+import { pageState } from "../pageState.js";
+import { generateSmallCard } from "../smallcard.js";
 
 /**
+ * @type {MultiSelection|null}
+ */
+let tagsInput = null;
+
+/**
+ * カテゴリからブース一覧を開き、そのタグで絞り込む。
  * @param {string} category
  */
-function searchWithCategory(category) {
+export function searchWithCategory(category) {
   if (!tagsInput) return;
   closeCard();
   tagsInput.setSelections([category]);
   pageState.page = "booth";
 }
 
-/**
- * @param {BoothInfo} boothInfo
- */
-export function showBoothCard(boothInfo) {
-  addBoothComponentsToCard(
-    generateCard("booth").card,
-    boothInfo.title,
-    boothInfo.operator,
-    boothInfo.boothImage,
-    getBoothCategories(boothInfo),
-    boothInfo.description,
-    searchWithCategory,
-  );
-}
-/**
- * @type {MultiSelection|null}
- */
-let tagsInput = null;
 function initBoothSearch() {
-  /**@type {HTMLDivElement | null} */
+  /** @type {HTMLDivElement | null} */
   const categoriesInput = document.querySelector(
     "#booth-page .categories-input",
   );
@@ -46,7 +35,7 @@ function initBoothSearch() {
   const categories = getAllBoothCategories();
   tagsInput = new MultiSelection(categoriesInput, categories);
 
-  /**@type {HTMLInputElement | null} */
+  /** @type {HTMLInputElement | null} */
   const keywordInput = document.querySelector(
     "#booth-page .search-input input",
   );
@@ -59,6 +48,7 @@ function initBoothSearch() {
     updateBooth(searchBooth(keywordInput.value, sel));
   };
 }
+
 /**
  * @param {BoothInfo[]} booths
  */
@@ -73,7 +63,7 @@ function updateBooth(booths) {
       b.description,
     );
     base.onclick = () => {
-      showBoothCard(b);
+      showBoothCard(b, searchWithCategory);
     };
     return base;
   });
@@ -82,15 +72,14 @@ function updateBooth(booths) {
   if (!resultPane) throw new Error("booth result pane not found");
 
   resultPane.innerHTML = "";
-
   resultPane.append(...cards);
 }
 
 function initShowMode() {
-  /**@type {HTMLDivElement | null} */
+  /** @type {HTMLDivElement | null} */
   const resultPane = document.querySelector("#booth-page .search-result-pane");
   if (!resultPane) throw new Error("booth result pane not found");
-  /**@type {HTMLButtonElement|null} */
+  /** @type {HTMLButtonElement|null} */
   const showmodeBtn = document.querySelector("#booth-showmode");
   if (!showmodeBtn) throw new Error("booth-showmode button not found");
 
@@ -102,5 +91,9 @@ function initShowMode() {
     showmodeBtn.innerText = nowList ? "list" : "cards_stack";
   };
 }
-initBoothSearch();
-initShowMode();
+
+export function initBoothPage() {
+  initBoothSearch();
+  initShowMode();
+  updateBooth(getAllBooths());
+}

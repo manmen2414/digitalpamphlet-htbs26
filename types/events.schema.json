@@ -5,18 +5,53 @@
   ],
   "properties": {
     "events": {
-      "type": "array", // オブジェクト型
+      "type": "array",
       "items": {
         "type": "object",
         "required": [
           "eventId",
-          "name"
+          "eventImage",
+          "title",
+          "times",
+          "category",
+          "description",
+          "operator"
         ],
         "properties": {
           "eventId": {
             "type": "string"
           },
-          "name": {
+          "eventImage": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "times": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "start",
+                "end"
+              ],
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "category": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "operator": {
             "type": "string"
           }
         }

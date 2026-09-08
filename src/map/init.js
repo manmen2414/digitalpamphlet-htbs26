@@ -1,0 +1,42 @@
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { debug } from "../debug.js";
+import { SVG_HEIGHT, mapBounds } from "./constants.js";
+import { mapState } from "./state.js";
+
+/**
+ * Leaflet の土台とズームコントロールだけを作る。
+ * @returns {L.Map}
+ */
+export function createMap() {
+  const map = L.map("map", {
+    crs: L.CRS.Simple,
+    minZoom: 0,
+    maxZoom: debug ? 6 : 3,
+    maxBounds: mapBounds,
+    zoomControl: false,
+  }).fitBounds(mapBounds);
+
+  L.control
+    .zoom({
+      position: "bottomright",
+    })
+    .addTo(map);
+
+  map.setView(L.latLng(SVG_HEIGHT, 0));
+  mapState.map = map;
+  return map;
+}
+
+/**
+ * 階層切り替えコントロールを右上に置く。
+ * @param {L.Map} map
+ */
+export function addFloorControl(map) {
+  L.control
+    .layers(mapState.baseLayers, undefined, {
+      position: "topright",
+      collapsed: false,
+    })
+    .addTo(map);
+}
