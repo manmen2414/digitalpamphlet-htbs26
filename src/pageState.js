@@ -1,5 +1,6 @@
 /**@typedef {import("../types/types").PamphletPage} PamphletPage */
 
+import { requireMap } from "./map/state.js";
 import { timeout } from "./util.js";
 
 /**@type {PamphletPage[]} */
@@ -86,6 +87,9 @@ async function slidePage(from, to) {
     }
 
     slideTarget.animate(keyframes, { easing: ease, duration });
+    setTimeout(() => {
+      requireMap().invalidateSize();
+    }, duration + 50);
     slideIndex++;
   }
 }
