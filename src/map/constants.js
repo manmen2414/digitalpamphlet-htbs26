@@ -12,4 +12,5 @@ export const mapBounds = L.latLngBounds(
 export const ROOM_COLOR_BOOTH = "#3388ff";
 export const ROOM_COLOR_HAS_EVENT = "#aaff33";
 export const ROOM_COLOR_TOILET = "#a0fff7";
+export const ROOM_COLOR_STAIR = "#b8a2a2";
 export const ROOM_COLOR_DEBUG = "#a3a300";

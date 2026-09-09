@@ -21,7 +21,7 @@
 }
 
 .showstyle-card .smallcard-img {
-  height: min(200px, 50vw);
+  height: min(300px, 45vw);
   width: min(600px, 100%);
   border-radius: 12px;
   object-fit: cover;

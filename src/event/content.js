@@ -14,16 +14,10 @@
  *   prefix: string,
  *   showDescription?: boolean,
  *   categoryTag?: "button"|"div",
- *   onCategoryClick?: ((category: string) => void)|null,
  * }} options
  */
 export function appendEventContent(root, data, options) {
-  const {
-    prefix,
-    showDescription = true,
-    categoryTag = "div",
-    onCategoryClick = null,
-  } = options;
+  const { prefix, showDescription = true, categoryTag = "div" } = options;
 
   const header = document.createElement("div");
   header.className = `${prefix}-header`;
@@ -65,19 +59,4 @@ export function appendEventContent(root, data, options) {
     description.innerText = data.description ?? "";
     content.appendChild(description);
   }
-
-  const category = data.category;
-  if (!category) return;
-
-  const categoriesWrap = document.createElement("div");
-  categoriesWrap.className = `${prefix}-categories`;
-  content.appendChild(categoriesWrap);
-
-  const categoryEl = document.createElement(categoryTag);
-  categoryEl.className = `${prefix}-category`;
-  categoryEl.innerText = category;
-  if (onCategoryClick) {
-    categoryEl.onclick = () => onCategoryClick(category);
-  }
-  categoriesWrap.appendChild(categoryEl);
 }

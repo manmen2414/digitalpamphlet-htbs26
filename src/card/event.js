@@ -4,9 +4,8 @@ import { generateCard } from "./base.js";
 /**
  * イベント詳細のポップアップを表示する。
  * @param {EventInfo} eventInfo
- * @param {((clicked: string) => any)|null} [onCategoryClick]
  */
-export function showEventCard(eventInfo, onCategoryClick = null) {
+export function showEventCard(eventInfo) {
   const { card } = generateCard("event");
   appendEventContent(
     card,
@@ -22,7 +21,6 @@ export function showEventCard(eventInfo, onCategoryClick = null) {
       prefix: "card",
       showDescription: true,
       categoryTag: "button",
-      onCategoryClick,
     },
   );
 }

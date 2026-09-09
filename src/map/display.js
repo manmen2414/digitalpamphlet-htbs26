@@ -1,11 +1,12 @@
 import L from "leaflet";
-import mapInfo from "../../env/mapinfo.js";
+import mapInfo from "../../public/env/mapinfo.js";
 import { debug } from "../debug.js";
 import { multiSelect } from "../util.js";
 import {
   ROOM_COLOR_BOOTH,
   ROOM_COLOR_DEBUG,
   ROOM_COLOR_HAS_EVENT,
+  ROOM_COLOR_STAIR,
   ROOM_COLOR_TOILET,
   mapBounds,
 } from "./constants.js";
@@ -39,6 +40,8 @@ export function buildMapDisplay() {
         ROOM_COLOR_BOOTH,
         room.name === "トイレ",
         ROOM_COLOR_TOILET,
+        room.name.includes("階段"),
+        ROOM_COLOR_STAIR,
         debug,
         ROOM_COLOR_DEBUG,
       );

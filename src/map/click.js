@@ -1,11 +1,13 @@
 import L from "leaflet";
-import mapInfo from "../../env/mapinfo.js";
+import mapInfo from "../../public/env/mapinfo.js";
 import { getBoothsByIds } from "../booth/data.js";
 import { showBoothCard } from "../card/booth.js";
 import { addSelectionsToCard } from "../card/selections.js";
 import { generateCard } from "../card/base.js";
 import { debug } from "../debug.js";
 import { mapState, requireMap } from "./state.js";
+import { showEventCard } from "../card/event.js";
+import { getEventsByIds } from "../event/data.js";
 
 /** @type {[number, number]|null} */
 let debugBounds = null;
@@ -103,6 +105,25 @@ function openRoomBooths(room) {
     );
   }
 }
+/**
+ * @param {RoomInfo} room
+ */
+function openRoomEvents(room) {
+  if (!room.eventIds || room.eventIds.length === 0) return;
+  const events = getEventsByIds(room.eventIds);
+  console.log(events);
+  if (events.length === 1) {
+    showEventCard(events[0]);
+    return;
+  }
+  if (events.length > 1) {
+    addSelectionsToCard(
+      generateCard("selections").card,
+      events.map((b) => [b.operator, () => showEventCard(b)]),
+      room.name,
+    );
+  }
+}
 
 /**
  * @param {L.Map} map
@@ -118,6 +139,7 @@ export function bindMapClicks(map, categoryClick = null) {
 
     const room = findRoomAt(e.latlng);
     if (!room) return;
-    openRoomBooths(room);
+    if (room.boothIds) openRoomBooths(room);
+    if (room.eventIds) openRoomEvents(room);
   });
 }
