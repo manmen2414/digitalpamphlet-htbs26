@@ -12,7 +12,7 @@ export function generateEventCard(
   operator,
   eventImage,
   times,
-  eventState
+  eventState,
 ) {
   const cardBase = document.createElement("div");
   cardBase.className = "smallcard-base";
@@ -25,6 +25,7 @@ export function generateEventCard(
     { title, operator, eventImage, times },
     {
       prefix: "smallcard",
+      showTimes: false,
       showDescription: false,
     },
   );
@@ -32,16 +33,21 @@ export function generateEventCard(
   /**
    * @type {HTMLDivElement|null}
    */
-  const timesElement = cardElement.querySelector(".smallcard-times")
-  if(!times) return;
+  const timesElement = document.createElement("div");
+  timesElement.className = "smallcard-times";
   const mainTextSpan = document.createElement("span");
-  mainTextSpan.classList.add(`event-state-main`,`event-state-${eventState.type}`)
+  mainTextSpan.classList.add(
+    `event-state-main`,
+    `event-state-${eventState.type}`,
+  );
   mainTextSpan.innerText = eventState.mainText;
   const timeTextSpan = document.createElement("span");
-  timeTextSpan.classList.add(`event-state-time`)
+  timeTextSpan.classList.add(`event-state-time`);
   timeTextSpan.innerText = eventState.absoluteTimeText;
   timesElement.innerHTML = "";
-  timesElement.append(mainTextSpan,timeTextSpan);
+  timesElement.append(mainTextSpan, timeTextSpan);
+  const content = cardElement.querySelector(".smallcard-content");
+  content?.append(timesElement);
 
   return cardBase;
 }

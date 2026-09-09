@@ -1,44 +1,67 @@
-import { hourMinute } from "../util";
+/**
+ * 時刻文字列 "HH:mm" を 00:00 からの経過分数に変換する
+ * @param {string} timeStr - "HH:mm" 形式の文字列
+ * @returns {number} 経過分数
+ */
+export function timeStrToMinutes(timeStr) {
+  const [h, m] = timeStr.split(":").map(Number);
+  return h * 60 + m;
+}
 
 /**
- * @param {EventTime[]} times
+ * イベントの現在の開催状態と対象時刻を取得する
+ *
+ * @param {EventTime[]} times - イベント時間枠のリスト
+ * @param {Date} [now=new Date()] - 基準日時（指定しない場合は現在時刻）
  * @returns {EventState}
  */
-export function generateEventState(times) {
-  const now = new Date(),
-    ho = now.getHours(),
-    mi = now.getMinutes();
-  const soonTime = times
-    .flatMap(({ start, end }) => {
-      const [startH, startM, endH, endM] = `${start}:${end}`
-        .split(":")
-        .map((i) => parseInt(i));
-      if (endH < ho) return [];
-      if (endH === ho && endM <= mi) return [];
-      return [{ startH, startM, endH, endM }];
-    })[0];
-  if (!soonTime)
-    return {
-      type: "end",
-      mainText: "終了",
-      absoluteTimeText: "終了しました",
-      leftMin: NaN,
-    };
+export function generateEventState(times, now = new Date()) {
+  const currentMin = now.getHours() * 60 + now.getMinutes();
 
-  const leftMin = soonTime.startH * 60 + soonTime.startM - (ho * 60 + mi);
-  if (soonTime.startH < ho || (soonTime.startH == ho && soonTime.startM <= mi))
+  // 時間枠を開始時間順にソート & 分数変換
+  const formattedTimes = times.map((t) => ({
+    ...t,
+    startMin: timeStrToMinutes(t.start),
+    endMin: timeStrToMinutes(t.end),
+  }));
+
+  // 現在開催中の枠を探す
+  const currentEvent = formattedTimes.find(
+    (t) => t.startMin <= currentMin && currentMin < t.endMin,
+  );
+
+  if (currentEvent) {
+    const leftMin = currentEvent.endMin - currentMin;
     return {
+      targetTime: currentEvent.end, // 開催中のため「終了時間」を返す
+      leftMin,
       type: "inheld",
       mainText: "開催中",
-      absoluteTimeText: `終了: ${hourMinute(soonTime.endH, soonTime.endM)}`,
-      leftMin,
+      absoluteTimeText: `終了: ${currentEvent.end}`,
     };
+  }
 
+  // 次に開始予定の枠を探す
+  const nextEvent = formattedTimes.find((t) => currentMin < t.startMin);
+
+  if (nextEvent) {
+    const leftMin = nextEvent.startMin - currentMin;
+    return {
+      targetTime: nextEvent.start, // 開催前のため「次の開始時間」を返す
+      leftMin,
+      type: leftMin <= 10 ? "soon" : "noheld",
+      mainText: `${leftMin}分後`,
+      absoluteTimeText: `開始: ${nextEvent.start}`,
+    };
+  }
+
+  // 3. 全時程が終了している場合
   return {
-    type: leftMin <= 10 ? "soon" : "noheld",
-    mainText: `${leftMin}分後`,
-    absoluteTimeText: `開始: ${hourMinute(soonTime.startH, soonTime.startM)}`,
-    leftMin,
+    targetTime: null,
+    leftMin: 0,
+    type: "end",
+    mainText: "終了",
+    absoluteTimeText: "終了しました",
   };
 }
 
@@ -48,12 +71,12 @@ export function generateEventState(times) {
  * @param {EventState} state
  * @param {string?} operator
  */
-export function generateEventTableRow(title, state,operator) {
+export function generateEventTableRow(title, state, operator) {
   const tr = document.createElement("tr");
   const th = document.createElement("th");
   th.className = "event-time-title";
   th.innerText = title;
-  if(operator){
+  if (operator) {
     const thSpan = document.createElement("span");
     thSpan.className = "event-time-title-op";
     thSpan.innerText = `(${operator})`;

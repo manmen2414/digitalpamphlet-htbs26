@@ -1,3 +1,5 @@
+import { generateEventState, timeStrToMinutes } from "./eventState";
+
 /**
  * ポップアップとイベント一覧カードで共通の本文を組み立てる。
  *
@@ -17,7 +19,12 @@
  * }} options
  */
 export function appendEventContent(root, data, options) {
-  const { prefix, showDescription = true,showTimes = true,onGoMapClick = null } = options;
+  const {
+    prefix,
+    showDescription = true,
+    showTimes = true,
+    onGoMapClick = null,
+  } = options;
 
   const header = document.createElement("div");
   header.className = `${prefix}-header`;
@@ -33,12 +40,12 @@ export function appendEventContent(root, data, options) {
   content.className = `${prefix}-content`;
   root.appendChild(content);
 
-  if(onGoMapClick){
+  if (onGoMapClick) {
     const goMapBtn = document.createElement("button");
     goMapBtn.className = `${prefix}-gomap`;
     goMapBtn.innerText = "マップで表示";
     goMapBtn.onclick = () => onGoMapClick();
-    root.appendChild(goMapBtn) 
+    root.appendChild(goMapBtn);
   }
 
   if (data.operator) {
@@ -53,18 +60,36 @@ export function appendEventContent(root, data, options) {
   title.innerText = data.title;
   content.appendChild(title);
 
-  const times = data.times ?? [];
-  if (times.length > 0  && showTimes) {
-    const timesEl = document.createElement("div");
-    timesEl.className = `${prefix}-times`;
-    timesEl.innerText = times.map((t) => `${t.start} – ${t.end}`).join(" / ");
-    content.appendChild(timesEl);
-  }
-
   if (showDescription) {
     const description = document.createElement("div");
     description.className = `${prefix}-desc`;
     description.innerText = data.description ?? "";
     content.appendChild(description);
+  }
+
+  const times = data.times ?? [];
+  if (times.length > 0 && showTimes) {
+    const timesWrapper = document.createElement("div");
+    timesWrapper.className = `${prefix}-times-wrapper`;
+    const timesLabel = document.createElement("div");
+    timesLabel.className = `${prefix}-times-label`;
+    timesLabel.innerText = "時間";
+
+    const ol = document.createElement("ol");
+    const now = new Date();
+    const currentMin = now.getHours() * 60 + now.getMinutes();
+
+    ol.append(
+      ...times.map((t) => {
+        const li = document.createElement("li");
+        li.innerText = `${t.start} ~ ${t.end}`;
+        if (timeStrToMinutes(t.start) <= currentMin) li.style.color = "#c60";
+        if (timeStrToMinutes(t.end) < currentMin) li.style.color = "#aaa";
+        return li;
+      }),
+    );
+
+    timesWrapper.append(timesLabel, ol);
+    content.appendChild(timesWrapper);
   }
 }

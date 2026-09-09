@@ -21,19 +21,10 @@ interface EventInfo {
   /** イベントの運営者。 */
   operator: string;
 }
-
-interface EventState{
-  type:"noheld"|"soon"|"inheld"|"end",
-  /**
-   * 状態を表すテキスト
-   */
-  mainText:string,
-  /**
-   * 相対的でない時間の表示
-   */
-  absoluteTimeText:string,
-  /**
-   * 残り時間(分)
-   */
-  leftMin: number
+interface EventState {
+  targetTime: string | null;
+  leftMin: number;
+  type: "inheld" | "soon" | "noheld" | "end";
+  mainText: string;
+  absoluteTimeText: string;
 }
