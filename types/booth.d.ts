@@ -22,3 +22,11 @@ type BoothCategory =
   | "物品"
   | "体験"
   | "その他";
+
+interface LabelId {
+  label: string;
+  id: string;
+}
+interface FilterSelection extends LabelId {
+  selected: boolean;
+}

@@ -1,4 +1,5 @@
 import booths from "../../public/env/boothinfo";
+import { Filter } from "./filter";
 
 /** @param {BoothInfo} booth */
 export function getBoothCategories(booth) {
@@ -24,13 +25,14 @@ export function getAllBoothCategories() {
 
 /**
  * @param {string} keyword
- * @param {string[]} tags AND selection
+ * @param {Filter} filter
  */
-export function searchBooth(keyword, tags) {
+export function searchBooth(keyword, filter) {
+  const filterIds = filter.getFilteredId();
   return booths.filter(
     (b) =>
       (b.title + b.description).includes(keyword) &&
-      tags.every((t) => getBoothCategories(b).includes(t)),
+      filterIds.every((id) => getBoothCategories(b).includes(id)),
   );
 }
 

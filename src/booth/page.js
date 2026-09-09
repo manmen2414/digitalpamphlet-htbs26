@@ -4,26 +4,30 @@ import {
   getBoothCategories,
   searchBooth,
 } from "./data.js";
-import { closeCard } from "../card/base.js";
+import { closeCard, generateCard } from "../card/base.js";
 import { showBoothCard } from "../card/booth.js";
-import { MultiSelection } from "../MultiSelection.js";
 import { pageState } from "../pageState.js";
 import { generateBoothCard } from "./boothcard.js";
 import { goMap } from "../map/gomap.js";
+import { Filter } from "./filter.js";
+import { addFiltersToCard } from "../card/filter.js";
 
-/**
- * @type {MultiSelection|null}
- */
-let tagsInput = null;
+const filter = new Filter(
+  getAllBoothCategories().map((v) => ({
+    id: `${v}`,
+    label: v,
+    selected: false,
+  })),
+);
 
 /**
  * カテゴリからブース一覧を開き、そのタグで絞り込む。
  * @param {string} category
  */
 export function searchWithCategory(category) {
-  if (!tagsInput) return;
   closeCard();
-  tagsInput.setSelections([category]);
+  filter.clear();
+  filter.set(category, true);
   pageState.page = "booth";
 }
 
@@ -33,8 +37,9 @@ function initBoothSearch() {
     "#booth-page .categories-input",
   );
   if (!categoriesInput) throw new Error("booth categories input not found");
-  const categories = getAllBoothCategories();
-  tagsInput = new MultiSelection(categoriesInput, categories);
+  categoriesInput.onclick = () => {
+    addFiltersToCard(generateCard("filters").card, filter);
+  };
 
   /** @type {HTMLInputElement | null} */
   const keywordInput = document.querySelector(
@@ -42,11 +47,18 @@ function initBoothSearch() {
   );
   if (!keywordInput) throw new Error("booth keyword input not found");
   keywordInput.onkeyup = () => {
-    if (!tagsInput) return;
-    updateBooth(searchBooth(keywordInput.value, tagsInput.getSelections()));
+    updateBooth(searchBooth(keywordInput.value, filter));
   };
-  tagsInput.onUpdate = (sel) => {
-    updateBooth(searchBooth(keywordInput.value, sel));
+  filter.onchange = () => {
+    const span = categoriesInput.querySelector("span");
+    if (span) {
+      const labels = filter.selections
+        .filter((v) => v.selected)
+        .map((v) => v.label);
+      if (labels.length === 0) span.innerText = "指定なし";
+      else span.innerText = labels.join(", ");
+    }
+    updateBooth(searchBooth(keywordInput.value, filter));
   };
 }
 

@@ -4,9 +4,9 @@ import { generateCard } from "./base.js";
 /**
  * イベント詳細のポップアップを表示する。
  * @param {EventInfo} eventInfo
- * @param {()=>void | null} onGoMapClick 
+ * @param {(()=>void) | null} onGoMapClick
  */
-export function showEventCard(eventInfo,onGoMapClick = null) {
+export function showEventCard(eventInfo, onGoMapClick = null) {
   const { card } = generateCard("event");
   appendEventContent(
     card,
@@ -20,7 +20,7 @@ export function showEventCard(eventInfo,onGoMapClick = null) {
     {
       prefix: "card",
       showDescription: true,
-      onGoMapClick
+      onGoMapClick,
     },
   );
 }
