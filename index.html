@@ -58,15 +58,12 @@
     <div class="event-search-pane">
       <button id="reload-event-btn">
         <span class="material-symbols-outlined">refresh</span>
-        更新
+        <span id="reload-event-btn-label">更新</span>
       </button>
       <span class="event-category">
         カテゴリ
         <select id="event-category-select">
-          <option value="">指定なし</option>
-          <option value="1">カテゴリ1</option>
-          <option value="2">カテゴリ2</option>
-          <option value="3">カテゴリ3</option>
+          <option value="" selected>指定なし</option>
         </select>
       </span>
     </div>
@@ -94,6 +91,8 @@
           </tbody>
 
         </table>
+      </div>
+      <div id="event-list" class="showstyle-list"></div>
       </div>
     </div>
 
