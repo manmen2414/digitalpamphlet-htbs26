@@ -4,7 +4,7 @@
  *
  * @param {...any} args
  */
-function multiSelect(...args) {
+export function multiSelect(...args) {
   /**@type {boolean|undefined} */
   let condition = undefined;
   for (const arg of args) {
@@ -22,9 +22,16 @@ function multiSelect(...args) {
  * @param {number} ms
  * @returns {Promise<void>}
  */
-function timeout(ms) {
+export function timeout(ms) {
   if (ms <= 0) return Promise.resolve();
   return new Promise((rs, rj) => setTimeout(() => rs(), ms));
 }
 
-export { multiSelect, timeout };
+/**
+ * 2桁最初0埋めで、hour:minuteとなる文字列を生成する。
+ * @param {number|string} hour
+ * @param {number|string} minute
+ */
+export function hourMinute(hour, minute) {
+  return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+}

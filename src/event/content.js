@@ -6,18 +6,18 @@
  *   title: string,
  *   operator?: string,
  *   eventImage?: string,
- *   category?: string,
  *   description?: string,
  *   times?: EventTime[],
  * }} data
  * @param {{
  *   prefix: string,
  *   showDescription?: boolean,
- *   categoryTag?: "button"|"div",
+ *   showTimes?: boolean
+ *   onGoMapClick?: (() => void)|null,
  * }} options
  */
 export function appendEventContent(root, data, options) {
-  const { prefix, showDescription = true, categoryTag = "div" } = options;
+  const { prefix, showDescription = true,showTimes = true,onGoMapClick = null } = options;
 
   const header = document.createElement("div");
   header.className = `${prefix}-header`;
@@ -33,6 +33,14 @@ export function appendEventContent(root, data, options) {
   content.className = `${prefix}-content`;
   root.appendChild(content);
 
+  if(onGoMapClick){
+    const goMapBtn = document.createElement("button");
+    goMapBtn.className = `${prefix}-gomap`;
+    goMapBtn.innerText = "マップで表示";
+    goMapBtn.onclick = () => onGoMapClick();
+    root.appendChild(goMapBtn) 
+  }
+
   if (data.operator) {
     const operatorElement = document.createElement("div");
     operatorElement.className = `${prefix}-operator`;
@@ -46,7 +54,7 @@ export function appendEventContent(root, data, options) {
   content.appendChild(title);
 
   const times = data.times ?? [];
-  if (times.length > 0) {
+  if (times.length > 0  && showTimes) {
     const timesEl = document.createElement("div");
     timesEl.className = `${prefix}-times`;
     timesEl.innerText = times.map((t) => `${t.start} – ${t.end}`).join(" / ");

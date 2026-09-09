@@ -14,6 +14,7 @@
  *   showDescription?: boolean,
  *   categoryTag?: "button"|"div",
  *   onCategoryClick?: ((category: string) => void)|null,
+ *   onGoMapClick?: (() => void)|null,
  * }} options
  */
 export function appendBoothContent(root, data, options) {
@@ -22,6 +23,7 @@ export function appendBoothContent(root, data, options) {
     showDescription = true,
     categoryTag = "div",
     onCategoryClick = null,
+    onGoMapClick = null
   } = options;
 
   const header = document.createElement("div");
@@ -34,9 +36,17 @@ export function appendBoothContent(root, data, options) {
     header.appendChild(img);
   }
 
+  if(onGoMapClick){
+    const goMapBtn = document.createElement("button");
+    goMapBtn.className = `${prefix}-gomap`;
+    goMapBtn.innerText = "マップで表示";
+    goMapBtn.onclick = () => onGoMapClick();
+    root.appendChild(goMapBtn) 
+  }
   const content = document.createElement("div");
   content.className = `${prefix}-content`;
   root.appendChild(content);
+  
 
   if (data.operator) {
     const operatorElement = document.createElement("div");
@@ -73,4 +83,5 @@ export function appendBoothContent(root, data, options) {
     }
     categoriesWrap.appendChild(categoryEl);
   }
+
 }

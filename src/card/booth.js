@@ -6,8 +6,9 @@ import { generateCard } from "./base.js";
  * ブース詳細のポップアップを表示する。
  * @param {BoothInfo} boothInfo
  * @param {((clicked: string) => any)|null} [onCategoryClick]
+ * @param {(() => any)|null} [onGoMapClick]
  */
-export function showBoothCard(boothInfo, onCategoryClick = null) {
+export function showBoothCard(boothInfo, onCategoryClick = null,onGoMapClick=null) {
   const { card } = generateCard("booth");
   appendBoothContent(
     card,
@@ -23,6 +24,7 @@ export function showBoothCard(boothInfo, onCategoryClick = null) {
       showDescription: true,
       categoryTag: "button",
       onCategoryClick,
+      onGoMapClick
     },
   );
 }

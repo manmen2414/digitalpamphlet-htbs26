@@ -68,6 +68,14 @@
   font-size: 20px;
 }
 
+.card-gomap {
+  border: 1px solid #000;
+  position: absolute;
+  right: 5px;
+  top: 44%;
+  background-color: #ffffffaa;
+}
+
 .card-title {
   font-size: min(25px, 7.5vw);
   font-weight: bold;

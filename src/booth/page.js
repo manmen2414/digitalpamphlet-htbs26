@@ -8,7 +8,8 @@ import { closeCard } from "../card/base.js";
 import { showBoothCard } from "../card/booth.js";
 import { MultiSelection } from "../MultiSelection.js";
 import { pageState } from "../pageState.js";
-import { generateSmallCard } from "../smallcard.js";
+import { generateBoothCard } from "./boothcard.js";
+import { goMap } from "../map/gomap.js";
 
 /**
  * @type {MultiSelection|null}
@@ -54,8 +55,7 @@ function initBoothSearch() {
  */
 function updateBooth(booths) {
   const cards = booths.map((b) => {
-    const base = generateSmallCard(
-      "booth",
+    const base = generateBoothCard(
       b.title,
       b.operator,
       b.boothImage,
@@ -63,7 +63,7 @@ function updateBooth(booths) {
       b.description,
     );
     base.onclick = () => {
-      showBoothCard(b, searchWithCategory);
+      showBoothCard(b, searchWithCategory, () => goMap(b.boothId, "booth"));
     };
     return base;
   });

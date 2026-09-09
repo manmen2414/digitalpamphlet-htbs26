@@ -1,16 +1,13 @@
-import "./smallcard.css";
-import { appendBoothContent } from "./booth/content.js";
+import { appendBoothContent } from "./content.js";
 
 /**
- * @param {string} cardType
  * @param {string} title
  * @param {string|undefined} operator
  * @param {string|undefined} boothImage
  * @param {string[]} categories
  * @param {string} description
  */
-export function generateSmallCard(
-  cardType,
+export function generateBoothCard(
   title,
   operator,
   boothImage,
@@ -20,7 +17,7 @@ export function generateSmallCard(
   const cardBase = document.createElement("div");
   cardBase.className = "smallcard-base";
   const cardElement = document.createElement("div");
-  cardElement.className = `smallcard smallcard-${cardType}`;
+  cardElement.className = `smallcard smallcard-booth`;
   cardBase.appendChild(cardElement);
 
   appendBoothContent(
