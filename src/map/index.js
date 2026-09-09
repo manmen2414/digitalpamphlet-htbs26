@@ -1,4 +1,4 @@
-import mapInfo from "../../env/mapinfo.js";
+import mapInfo from "../../public/env/mapinfo.js";
 import { bindMapClicks } from "./click.js";
 import { buildMapDisplay } from "./display.js";
 import { addFloorControl, createMap } from "./init.js";

@@ -1,4 +1,4 @@
-import booths from "../../env/boothinfo";
+import booths from "../../public/env/boothinfo";
 
 /** @param {BoothInfo} booth */
 export function getBoothCategories(booth) {
