@@ -1,5 +1,4 @@
 import "./style.css";
-import "./smallcard.css";
 import { initMap } from "./map/index.js";
 import { initBoothPage, searchWithCategory } from "./booth/page.js";
 import "./pageState.js";

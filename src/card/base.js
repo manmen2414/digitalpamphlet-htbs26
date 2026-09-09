@@ -1,5 +1,3 @@
-import "../card.css";
-
 /**
  * 閉じるボタン付きのベースポップアップを表示する。
  * @param {string} cardType
