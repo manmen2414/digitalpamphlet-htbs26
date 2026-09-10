@@ -30,9 +30,9 @@ function initFilter() {
     categorySelect.append(option);
   });
 
-  categorySelect.onchange = ()=>{
-  updateEvent(filterEvents());
-  }
+  categorySelect.onchange = () => {
+    updateEvent(filterEvents());
+  };
 }
 
 /**
@@ -72,8 +72,8 @@ function updateEvent(events) {
       if (b.type === "end") return -1;
       return a.leftMin - b.leftMin;
     })
-    .forEach(({ title,operator, state }) => {
-      eventTable.append(generateEventTableRow(title, state,operator));
+    .forEach(({ title, operator, state }) => {
+      eventTable.append(generateEventTableRow(title, state, operator));
     });
 }
 
@@ -87,17 +87,22 @@ function regularUpdate() {
   }, 500);
 }
 
-async function onRefreshButton(){
+async function onRefreshButton() {
   /**@type {HTMLSpanElement|null} */
   const label = document.querySelector("#reload-event-btn-label");
-  if(label) label.innerText = "更新中";
-  const result = await getEventData().then(()=>true,()=>false);
-  if(result && label) label.innerText = "完了";
-  if(!result && label) label.innerText = "失敗";
+  if (label) label.innerText = "更新中";
+  const result = await getEventData().then(
+    () => true,
+    () => false,
+  );
+  if (result && label) label.innerText = "完了";
+  if (!result && label) label.innerText = "失敗";
 
-  setTimeout(()=>{
-    if(label) label.innerText = "更新";
-  },2000)
+  updateEvent(filterEvents());
+
+  setTimeout(() => {
+    if (label) label.innerText = "更新";
+  }, 2000);
 }
 
 export async function initEvent() {
@@ -106,5 +111,7 @@ export async function initEvent() {
   updateEvent(filterEvents());
   regularUpdate();
 
-  document.querySelector("#reload-event-btn")?.addEventListener("click",onRefreshButton)
+  document
+    .querySelector("#reload-event-btn")
+    ?.addEventListener("click", onRefreshButton);
 }
