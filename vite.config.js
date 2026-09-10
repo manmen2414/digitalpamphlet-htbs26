@@ -1,16 +1,52 @@
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+import {
+  PWA_NAME,
+  PWA_SHORT_NAME,
+  PWA_DESCRIPTION,
+} from "./public/env/manifest.js";
 
+// PWA用のもろもろ: PWAを使わない場合はファイルごと消してもOK
 export default defineConfig({
   plugins: [
     VitePWA({
       registerType: "autoUpdate",
+      manifest: {
+        name: PWA_NAME,
+        short_name: PWA_SHORT_NAME,
+        description: PWA_DESCRIPTION,
+        theme_color: "#d2e3e4",
+        background_color: "#dddddd",
+        display: "standalone",
+
+        // ★ アイコンの指定箇所
+        icons: [
+          {
+            src: "/icon192.png",
+            sizes: "192x192",
+            type: "image/png",
+            purpose: "any", // 通常のアイコン
+          },
+          {
+            src: "/icon512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any",
+          },
+          {
+            src: "/icon512.png", // または通常の512と同じ画像
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable", // Androidの形（丸型・角丸など）に合わせてトリミングされる用
+          },
+        ],
+      },
       workbox: {
         // ① ビルド時に一括保存する静的ファイル（SVGも含めています）
         globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp}"],
 
         // ② 更新頻度が高いJSONだけプリキャッシュから外す
-        globIgnores: ["**/env/data.json"],
+        globIgnores: ["**/env/events.json"],
 
         runtimeCaching: [
           {
@@ -28,7 +64,7 @@ export default defineConfig({
           },
           {
             // env 直下の更新頻度が高いJSON（ネットワーク優先）
-            urlPattern: /\/env\/data\.json$/,
+            urlPattern: /\/env\/events\.json$/,
             handler: "NetworkFirst",
             options: {
               cacheName: "env-json-cache",

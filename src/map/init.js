@@ -4,6 +4,9 @@ import { debug } from "../debug.js";
 import { SVG_HEIGHT, mapBounds } from "./constants.js";
 import { mapState } from "./state.js";
 
+// ピンの再バインド
+L.Icon.Default.imagePath = "/leaflet/";
+
 /**
  * Leaflet の土台とズームコントロールだけを作る。
  * @returns {L.Map}

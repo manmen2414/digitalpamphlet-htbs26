@@ -36,10 +36,6 @@ export function appendEventContent(root, data, options) {
     header.appendChild(img);
   }
 
-  const content = document.createElement("div");
-  content.className = `${prefix}-content`;
-  root.appendChild(content);
-
   if (onGoMapClick) {
     const goMapBtn = document.createElement("button");
     goMapBtn.className = `${prefix}-gomap`;
@@ -47,6 +43,10 @@ export function appendEventContent(root, data, options) {
     goMapBtn.onclick = () => onGoMapClick();
     root.appendChild(goMapBtn);
   }
+
+  const content = document.createElement("div");
+  content.className = `${prefix}-content`;
+  root.appendChild(content);
 
   if (data.operator) {
     const operatorElement = document.createElement("div");

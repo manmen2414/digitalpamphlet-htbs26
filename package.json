@@ -8,7 +8,8 @@
     "dev-host": "vite --host",
     "build": "vite build",
     "builddev": "vite build --debug",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview-host": "vite preview --host"
   },
   "devDependencies": {
     "vite": "^8.2.2",
