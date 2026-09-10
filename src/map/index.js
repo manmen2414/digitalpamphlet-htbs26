@@ -20,4 +20,6 @@ export function initMap(options = {}) {
     throw new Error("initMap: mapinfo has no floors");
   }
   showFloor(initialFloor);
+
+  map.setZoom(1);
 }

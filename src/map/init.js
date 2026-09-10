@@ -13,6 +13,7 @@ export function createMap() {
     crs: L.CRS.Simple,
     minZoom: 0,
     maxZoom: debug ? 6 : 3,
+    zoomSnap: 0.5,
     maxBounds: mapBounds,
     zoomControl: false,
   }).fitBounds(mapBounds);
