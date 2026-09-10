@@ -4,10 +4,10 @@ import { requireMap } from "./map/state.js";
 import { timeout } from "./util.js";
 
 /**@type {PamphletPage[]} */
-const PAMPHLET_PAGES = ["map", "booth", "event"];
+const PAMPHLET_PAGES = ["map", "booth", "event", "help"];
 const SLIDE_ANIMATION = {
   /**ページを端から端までスクロールするときの秒数 */
-  pageSlideSeconds: 0.4,
+  pageSlideSeconds: 0.3,
   /**開始ページのイージング */
   startEase: "ease",
   /**中間ページのイージング */

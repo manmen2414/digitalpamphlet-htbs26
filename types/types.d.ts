@@ -1,1 +1,1 @@
-export type PamphletPage = "map" | "booth" | "event";
+export type PamphletPage = "map" | "booth" | "event"|"help";

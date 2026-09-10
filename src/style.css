@@ -19,6 +19,7 @@
   --theme-map: #2980b9; /* マップ：信頼感のあるブルー */
   --theme-booth: #27ae60; /* ブース：フレッシュなグリーン */
   --theme-event: #e67e22; /* イベント：楽しさを演出するオレンジ */
+  --theme-help: #3c3c3c;
 
   /* アニメーション */
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
@@ -193,6 +194,14 @@ nav > button.active-page[data-theme="event"] {
 nav > button.active-page[data-theme="event"]::after {
   background-color: var(--theme-event);
   box-shadow: 0 2px 8px rgba(230, 126, 34, 0.3);
+}
+
+nav > button.active-page[data-theme="help"] {
+  color: var(--theme-help);
+}
+nav > button.active-page[data-theme="help"]::after {
+  background-color: var(--theme-help);
+  box-shadow: 0 2px 8px rgba(138, 138, 138, 0.3);
 }
 
 /* アクティブページのインジケーター（共通） */
@@ -845,4 +854,12 @@ strong:hover {
   .event-time-title-op {
     display: none;
   }
+}
+#help-page {
+  background-color: var(--bg-main);
+}
+#help-page > iframe {
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
 }
