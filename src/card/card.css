@@ -31,6 +31,10 @@
   max-width: 500px;
 }
 
+.card-booth:not(:has(.card-img)) {
+  padding-top: 30px;
+}
+
 .card-close {
   position: absolute;
   right: var(--closebtn-margin);
@@ -72,8 +76,18 @@
   border: 1px solid #000;
   position: absolute;
   right: 5px;
-  top: 44%;
+  top: 23%;
   background-color: #ffffffaa;
+}
+
+.card-header:has(.card-img) + .card-gomap {
+  top: 42%;
+}
+
+@media screen and (max-width: 470px) {
+  .card-header:has(.card-img) + .card-gomap {
+    top: 37%;
+  }
 }
 
 .card-title {
