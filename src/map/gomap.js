@@ -37,8 +37,12 @@ export function goMap(id, type) {
       map.addLayer(mapState.baseLayers[floor.floorName]);
     }
     map.setZoom(2);
+    const marker = L.marker(bounds.getCenter()).addTo(map);
     setTimeout(() => {
       map.panTo(bounds.getCenter());
     }, 300);
+    setTimeout(() => {
+      marker.remove();
+    }, 5000);
   }
 }
