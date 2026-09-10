@@ -654,7 +654,7 @@ strong:hover {
 }
 
 #booth-page .search-pane {
-  background-color: #27ae60;
+  background-color: var(--theme-booth);
 }
 
 .search-input {
@@ -761,7 +761,7 @@ strong:hover {
   display: flex;
   gap: 5px;
   z-index: 10;
-  background-color: #e67e22;
+  background-color: var(--theme-event);
   align-items: center;
 }
 
