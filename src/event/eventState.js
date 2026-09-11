@@ -13,9 +13,18 @@ export function timeStrToMinutes(timeStr) {
  *
  * @param {EventTime[]} times - イベント時間枠のリスト
  * @param {Date} [now=new Date()] - 基準日時（指定しない場合は現在時刻）
+ * @param {boolean?} isPaused 休園中か
  * @returns {EventState}
  */
-export function generateEventState(times, now = new Date()) {
+export function generateEventState(times, now = new Date(), isPaused = false) {
+  if (isPaused)
+    return {
+      targetTime: null,
+      leftMin: 0,
+      absoluteTimeText: "休演中です",
+      mainText: "休演",
+      type: "end",
+    };
   const currentMin = now.getHours() * 60 + now.getMinutes();
 
   // 時間枠を開始時間順にソート & 分数変換

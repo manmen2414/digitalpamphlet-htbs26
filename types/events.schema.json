@@ -53,6 +53,9 @@
           },
           "operator": {
             "type": "string"
+          },
+          "isPaused": {
+            "type": "boolean"
           }
         }
       }

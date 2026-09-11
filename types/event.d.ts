@@ -20,6 +20,8 @@ interface EventInfo {
   description: string;
   /** イベントの運営者。 */
   operator: string;
+  /** 休演しているか。 */
+  isPaused?: boolean;
 }
 interface EventState {
   targetTime: string | null;

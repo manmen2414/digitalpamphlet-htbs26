@@ -40,7 +40,7 @@ function initFilter() {
  */
 function updateEvent(events) {
   const cards = events.map((e) => {
-    const state = generateEventState(e.times);
+    const state = generateEventState(e.times, new Date(), e.isPaused);
     const base = generateEventCard(
       e.title,
       e.operator,
