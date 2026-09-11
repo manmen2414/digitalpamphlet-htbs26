@@ -30,7 +30,7 @@ const map = {
         },
         {
           name: "部屋C イベントあり",
-          eventIds: ["roomCEvent"],
+          eventIds: ["test-event"],
           bounds: [
             [417.09507655927536, 619.984375],
             [691.3444818947726, 391.5],

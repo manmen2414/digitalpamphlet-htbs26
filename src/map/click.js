@@ -111,7 +111,6 @@ function openRoomBooths(room) {
 function openRoomEvents(room) {
   if (!room.eventIds || room.eventIds.length === 0) return;
   const events = getEventsByIds(room.eventIds);
-  console.log(events);
   if (events.length === 1) {
     showEventCard(events[0]);
     return;
