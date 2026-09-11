@@ -5,10 +5,14 @@ import {
   PWA_SHORT_NAME,
   PWA_DESCRIPTION,
 } from "./public/env/manifest.js";
+import viteLegacyPlugin from "@vitejs/plugin-legacy";
 
 // PWA用のもろもろ: PWAを使わない場合はファイルごと消してもOK
 export default defineConfig({
   plugins: [
+    viteLegacyPlugin({
+      targets: ["defaults", "not IE 11"],
+    }),
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
@@ -50,7 +54,11 @@ export default defineConfig({
         // ① ビルド時に一括保存する静的ファイル
         globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp}"],
         // ② 更新頻度が高いJSONだけプリキャッシュから外す
-        globIgnores: ["**/env/events.json"],
+        globIgnores: [
+          "**/env/events.json",
+          "**/*-legacy.*",
+          "**/polyfills-*.*",
+        ],
 
         // SPA用のフォールバック設定
         navigateFallback: "/index.html",
