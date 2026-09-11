@@ -1,5 +1,6 @@
 import { appendEventContent } from "../event/content.js";
 import { generateCard } from "./base.js";
+import { fixCloseBtnPosition } from "./fixClosePos.js";
 
 /**
  * イベント詳細のポップアップを表示する。
@@ -23,4 +24,5 @@ export function showEventCard(eventInfo, onGoMapClick = null) {
       onGoMapClick,
     },
   );
+  fixCloseBtnPosition(card);
 }

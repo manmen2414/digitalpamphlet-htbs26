@@ -1,4 +1,5 @@
 import { Filter } from "../booth/filter";
+import { fixCloseBtnPosition } from "./fixClosePos";
 
 /**
  * @param {HTMLDivElement} card
@@ -54,4 +55,6 @@ export function addFiltersToCard(card, filter, label = "タグ絞り込み") {
   wrap.append(group);
 
   card.append(resetBtn, wrap);
+
+  fixCloseBtnPosition(card);
 }

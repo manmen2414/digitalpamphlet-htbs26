@@ -1,3 +1,5 @@
+import { fixCloseBtnPosition } from "./fixClosePos";
+
 /**
  * @param {HTMLDivElement} card
  * @param {[string, () => void][]} selections
@@ -19,4 +21,6 @@ export function addSelectionsToCard(card, selections, label = "選択") {
   }
 
   card.appendChild(wrap);
+
+  fixCloseBtnPosition(card);
 }

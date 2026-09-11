@@ -1,6 +1,7 @@
 import { appendBoothContent } from "../booth/content.js";
 import { getBoothCategories } from "../booth/data.js";
 import { generateCard } from "./base.js";
+import { fixCloseBtnPosition } from "./fixClosePos.js";
 
 /**
  * ブース詳細のポップアップを表示する。
@@ -8,7 +9,11 @@ import { generateCard } from "./base.js";
  * @param {((clicked: string) => any)|null} [onCategoryClick]
  * @param {(() => any)|null} [onGoMapClick]
  */
-export function showBoothCard(boothInfo, onCategoryClick = null,onGoMapClick=null) {
+export function showBoothCard(
+  boothInfo,
+  onCategoryClick = null,
+  onGoMapClick = null,
+) {
   const { card } = generateCard("booth");
   appendBoothContent(
     card,
@@ -24,7 +29,8 @@ export function showBoothCard(boothInfo, onCategoryClick = null,onGoMapClick=nul
       showDescription: true,
       categoryTag: "button",
       onCategoryClick,
-      onGoMapClick
+      onGoMapClick,
     },
   );
+  fixCloseBtnPosition(card);
 }

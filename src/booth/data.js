@@ -29,11 +29,14 @@ export function getAllBoothCategories() {
  */
 export function searchBooth(keyword, filter) {
   const filterIds = filter.getFilteredId();
-  return booths.filter(
-    (b) =>
-      (b.title + b.description).includes(keyword) &&
-      filterIds.every((id) => getBoothCategories(b).includes(id)),
-  );
+  const keywords = keyword.split(/[\s　]/).filter((v) => !!v);
+  return booths.filter((b) => {
+    const searchText = b.title + b.description + b.operator;
+    return (
+      keywords.every((k) => searchText.includes(k)) &&
+      filterIds.every((id) => getBoothCategories(b).includes(id))
+    );
+  });
 }
 
 /**

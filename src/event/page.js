@@ -85,6 +85,13 @@ function regularUpdate() {
       updateEvent(filterEvents());
     }
   }, 500);
+
+  // 戻ってきたときは更新する
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      updateEvent(filterEvents());
+    }
+  });
 }
 
 async function onRefreshButton() {
