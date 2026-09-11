@@ -42,15 +42,26 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // ① ビルド時に一括保存する静的ファイル（SVGも含めています）
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp}"],
+        cleanupOutdatedCaches: true,
+        // 新しいSWがインストールされたら即座に有効化して制御を奪う（古いSWの残存を防ぐ）
+        skipWaiting: true,
+        clientsClaim: true,
 
+        // ① ビルド時に一括保存する静的ファイル
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp}"],
         // ② 更新頻度が高いJSONだけプリキャッシュから外す
         globIgnores: ["**/env/events.json"],
 
+        // SPA用のフォールバック設定
+        navigateFallback: "/index.html",
+        navigateFallbackDenylist: [
+          /^\/env\//, // /env/ から始まるパスを除外
+          /\.json$/, // .json で終わるURLを除外
+        ],
+
         runtimeCaching: [
           {
-            // env/images と env/map 配下の画像（SVG含む）を CacheFirst（キャッシュ優先）にする
+            // 画像（SVG含む）を CacheFirst にする
             urlPattern:
               /\/env\/(images|map)\/.*\.(png|jpg|jpeg|svg|webp|gif)$/i,
             handler: "CacheFirst",
@@ -63,12 +74,15 @@ export default defineConfig({
             },
           },
           {
-            // env 直下の更新頻度が高いJSON（ネットワーク優先）
-            urlPattern: /\/env\/events\.json$/,
+            // ★ 関数ではなく正規表現で指定する（エラー防止）
+            urlPattern: /\/env\/events\.json$/i,
             handler: "NetworkFirst",
             options: {
               cacheName: "env-json-cache",
               networkTimeoutSeconds: 5,
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
             },
           },
         ],
